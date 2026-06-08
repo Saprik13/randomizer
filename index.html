@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Randomizer</title>
+    <link rel="stylesheet" href="./css/style.css">
+    <script src="./js/app.js" defer></script>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="hero">
+        <div class="lang-switch">
+          <button class="lang-btn active" id="btn-ua" onclick="setLang('ua')">
+            UA
+          </button>
+          <button class="lang-btn" id="btn-en" onclick="setLang('en')">
+            EN
+          </button>
+        </div>
+        <i class="ti ti-target-arrow hero-icon" aria-hidden="true"></i>
+        <h1 id="hero-title">Рандомайзер</h1>
+        <div class="hero-sub" id="hero-sub">Розподіл учасників по групах</div>
+      </div>
+
+      <div class="main">
+        <div class="tabs">
+          <button
+            class="tab active"
+            id="tab-btn-manual"
+            onclick="switchTab('manual', this)"
+          >
+            <i class="ti ti-edit" aria-hidden="true"></i>
+            <span data-t="tabManual">Вручну</span>
+          </button>
+          <button
+            class="tab"
+            id="tab-btn-import"
+            onclick="switchTab('import', this)"
+          >
+            <i class="ti ti-table-import" aria-hidden="true"></i>
+            <span data-t="tabImport">Імпорт з таблиці</span>
+          </button>
+        </div>
+
+        <div id="tab-manual" class="tab-content active">
+          <div class="panel">
+            <div class="panel-title">
+              <i class="ti ti-users" aria-hidden="true"></i>
+              <span data-t="panelPlayers">Список учасників</span>
+            </div>
+            <div id="plist"></div>
+            <div class="act-row" style="margin-top: 8px">
+              <button class="btn" onclick="addRow()">
+                <i class="ti ti-plus" aria-hidden="true"></i>
+                <span data-t="btnAdd">Додати</span>
+              </button>
+              <button class="btn btn-ghost-red" onclick="clearList()">
+                <i class="ti ti-trash" aria-hidden="true"></i>
+                <span data-t="btnClear">Очистити список</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div id="tab-import" class="tab-content">
+          <div class="panel">
+            <div class="panel-title">
+              <i class="ti ti-clipboard-data" aria-hidden="true"></i>
+              <span data-t="panelImport">Вставте дані з Google Таблиць</span>
+            </div>
+            <div class="col-row">
+              <div class="col-item">
+                <label data-t="colName">Колонка імені</label>
+                <input
+                  class="di"
+                  type="number"
+                  id="colName"
+                  value="1"
+                  min="1"
+                  max="20"
+                />
+              </div>
+              <div class="col-item">
+                <label data-t="colRating">Колонка рейтингу</label>
+                <input
+                  class="di"
+                  type="number"
+                  id="colRating"
+                  value="2"
+                  min="1"
+                  max="20"
+                />
+              </div>
+            </div>
+            <textarea
+              class="di"
+              id="pasteArea"
+              rows="5"
+              data-t-ph="pastePlaceholder"
+            ></textarea>
+            <div class="act-row" style="margin-top: 10px">
+              <button class="btn btn-primary" onclick="importData()">
+                <i class="ti ti-download" aria-hidden="true"></i>
+                <span data-t="btnImport">Імпортувати</span>
+              </button>
+              <button
+                class="btn"
+                onclick="
+                  document.getElementById('pasteArea').value = '';
+                  hideFeed();
+                "
+              >
+                <i class="ti ti-x" aria-hidden="true"></i>
+                <span data-t="btnClearPaste">Очистити</span>
+              </button>
+              <span id="feed-ok" class="feed-ok"></span>
+              <span id="feed-err" class="feed-err"></span>
+            </div>
+            <div class="hint" id="import-hint">
+              Формат: <code>Андрій 1850</code> (табуляція між колонками).
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <div class="settings-row">
+          <div class="set-item">
+            <label data-t="labelGroups">Кількість груп</label>
+            <input
+              class="di"
+              type="number"
+              id="groupCount"
+              min="1"
+              max="100"
+              value="2"
+              oninput="updatePreview()"
+            />
+          </div>
+          <div class="set-item">
+            <label data-t="labelSize">Учасників у групі</label>
+            <input
+              class="di"
+              type="number"
+              id="groupSize"
+              min="1"
+              max="100"
+              value="4"
+              oninput="updatePreview()"
+            />
+          </div>
+        </div>
+
+        <div class="info-msg" id="info-msg"></div>
+
+        <div class="act-row">
+          <button class="btn btn-primary" onclick="generate()">
+            <i class="ti ti-shuffle" aria-hidden="true"></i>
+            <span data-t="btnGenerate">Генерувати групи</span>
+          </button>
+        </div>
+        <div id="warning" class="warning" style="display: none"></div>
+
+        <div id="output" style="display: none">
+          <div class="output-wrap">
+            <div class="out-header">
+              <div class="out-title">
+                <i class="ti ti-layout-grid" aria-hidden="true"></i>
+                <span data-t="resultTitle">Результат</span>
+              </div>
+              <button
+                class="btn"
+                onclick="generate()"
+                style="font-size: 12px; padding: 5px 12px"
+              >
+                <i class="ti ti-refresh" aria-hidden="true"></i>
+                <span data-t="btnRepeat">Повторити</span>
+              </button>
+            </div>
+            <div class="groups-grid" id="groups-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
