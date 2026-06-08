@@ -1,6 +1,6 @@
 let rows = [],
   counter = 0,
-  lang = "ua";
+  lang = "en";
 
 const T = {
   ua: {
