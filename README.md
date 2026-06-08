@@ -1,0 +1,2 @@
+# Randomizer
+Randomizer for darts
