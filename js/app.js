@@ -335,7 +335,7 @@ function renderGroups(groups) {
   document.getElementById("output").style.display = "block";
 }
 
-[
+/*[
   ["Форманюк Андрій", 125],
   ["Бадира Олександр", 0],
   ["Корпусов Андрій", 93.75],
@@ -345,3 +345,4 @@ function renderGroups(groups) {
   ["Матвійчук Олександр", 62.5],
   ["Головень Юрій", 0],
 ].forEach(([n, r]) => addRow(n, r));
+*/
