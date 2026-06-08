@@ -1,0 +1,453 @@
+/* ============================================================
+   RANDOMIZER — RESPONSIVE & MOBILE ENHANCEMENTS
+   Додатковий файл для коректного відображення на всіх пристроях
+   Підключайте ПІСЛЯ основного randomizer.css
+   ============================================================ */
+
+/* ── Viewport & base mobile fixes ── */
+@viewport { width: device-width; initial-scale: 1; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+  touch-action: manipulation;
+}
+
+/* Prevent iOS zoom on input focus */
+input, textarea, select, button {
+  font-size: 16px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* ── Safe area for notch phones ── */
+.wrap {
+  padding-left: env(safe-area-inset-left, 0px);
+  padding-right: env(safe-area-inset-right, 0px);
+}
+
+/* ============================================================
+   HERO / HEADER — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .hero {
+    padding: 1.5rem 0.75rem 1rem;
+  }
+  .hero h1 {
+    font-size: 26px;
+    letter-spacing: 0.05em;
+  }
+  .hero-icon {
+    width: 40px;
+    height: 40px;
+  }
+  .hero-sub {
+    font-size: 11px;
+    letter-spacing: 0.12em;
+  }
+  .hero::after {
+    width: 40px;
+    margin-top: 0.75rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .hero h1 {
+    font-size: 22px;
+  }
+}
+
+/* ── Language switch — mobile fix ── */
+@media (max-width: 640px) {
+  .lang-switch {
+    top: 0.75rem;
+    right: 0.75rem;
+    border-radius: var(--radius-sm);
+  }
+  .lang-btn {
+    padding: 4px 10px;
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 360px) {
+  .lang-switch {
+    position: static;
+    display: inline-flex;
+    margin-top: 12px;
+    justify-content: center;
+  }
+  .hero {
+    position: relative;
+    padding-top: 1rem;
+  }
+}
+
+/* ============================================================
+   TABS — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .tabs {
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-bottom: 1rem;
+  }
+  .tab {
+    flex: 1 1 auto;
+    min-width: 120px;
+    padding: 10px 14px;
+    font-size: 12px;
+    justify-content: center;
+    border-radius: var(--radius-md) !important;
+    border-left: 1px solid var(--border-light) !important;
+  }
+  .tab:first-child,
+  .tab:last-child {
+    border-radius: var(--radius-md) !important;
+  }
+  .tab + .tab {
+    border-left: 1px solid var(--border-light) !important;
+  }
+}
+
+@media (max-width: 360px) {
+  .tab {
+    min-width: 100%;
+    font-size: 13px;
+    padding: 12px;
+  }
+}
+
+/* ============================================================
+   MAIN / PANELS — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .main {
+    padding: 1rem 0.75rem 0;
+  }
+  .panel,
+  .settings-row,
+  .output-wrap {
+    padding: 1rem;
+    border-radius: var(--radius-md);
+  }
+  .panel-title {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+  }
+}
+
+/* ============================================================
+   PARTICIPANT ROWS — MOBILE CRITICAL FIX
+   ============================================================ */
+@media (max-width: 640px) {
+  .p-row {
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .p-row:last-child {
+    border-bottom: none;
+  }
+  .p-row input[type="text"] {
+    flex: 1 1 100%;
+    min-width: 0;
+    order: 1;
+  }
+  .p-row input[type="number"] {
+    width: 80px;
+    flex: 0 0 80px;
+    order: 2;
+    min-height: 40px;
+  }
+  .p-row .btn-x {
+    order: 3;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    margin-left: auto;
+  }
+}
+
+/* ============================================================
+   INPUTS — MOBILE TOUCH TARGETS
+   ============================================================ */
+@media (max-width: 640px) {
+  .di {
+    padding: 10px 12px;
+    min-height: 40px;
+    border-radius: var(--radius-sm);
+  }
+  textarea.di {
+    min-height: 80px;
+  }
+  input[type="number"].di {
+    padding-left: 4px;
+    padding-right: 4px;
+  }
+}
+
+/* ============================================================
+   BUTTONS — MOBILE TOUCH TARGETS
+   ============================================================ */
+@media (max-width: 640px) {
+  .btn {
+    min-height: 40px;
+    padding: 10px 14px;
+    font-size: 13px;
+    justify-content: center;
+  }
+  .btn-primary {
+    min-height: 44px;
+    padding: 12px 18px;
+    font-size: 14px;
+  }
+  .act-row {
+    gap: 10px;
+  }
+  .act-row .btn {
+    flex: 1 1 auto;
+  }
+}
+
+@media (max-width: 360px) {
+  .act-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .act-row .btn {
+    width: 100%;
+  }
+}
+
+/* ============================================================
+   SETTINGS ROW — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .settings-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    padding: 1rem;
+  }
+  .set-item {
+    width: 100%;
+  }
+  .set-item input,
+  .set-item select {
+    width: 100%;
+    max-width: none;
+  }
+  .set-item label {
+    font-size: 10px;
+  }
+}
+
+/* ============================================================
+   COLUMN SELECTOR — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .col-row {
+    gap: 12px;
+  }
+  .col-item {
+    flex: 1 1 calc(50% - 12px);
+    min-width: 100px;
+  }
+  .col-item input {
+    width: 100%;
+  }
+}
+
+@media (max-width: 360px) {
+  .col-item {
+    flex: 1 1 100%;
+  }
+}
+
+/* ============================================================
+   GROUPS GRID — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .groups-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .group-card {
+    padding: 0.75rem 1rem;
+  }
+  .group-title {
+    font-size: 10px;
+  }
+  .m-name {
+    font-size: 14px;
+  }
+  .m-rating {
+    font-size: 11px;
+    padding: 3px 10px;
+  }
+  .g-avg {
+    font-size: 10px;
+  }
+}
+
+/* ============================================================
+   OUTPUT HEADER — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .out-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+  .out-title {
+    font-size: 10px;
+  }
+}
+
+/* ============================================================
+   HINTS / INFO — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .hint {
+    font-size: 11px;
+    line-height: 1.5;
+  }
+  .hint code {
+    font-size: 10px;
+  }
+  .info-msg,
+  .warning {
+    font-size: 11px;
+  }
+  .feed-ok,
+  .feed-err {
+    font-size: 11px;
+  }
+}
+
+/* ============================================================
+   TIER BADGES — MOBILE
+   ============================================================ */
+@media (max-width: 640px) {
+  .badge {
+    font-size: 9px;
+    padding: 2px 5px;
+  }
+  .m-badges {
+    gap: 3px;
+  }
+}
+
+/* ============================================================
+   LANDSCAPE ORIENTATION — MOBILE
+   ============================================================ */
+@media (max-height: 480px) and (orientation: landscape) {
+  .hero {
+    padding: 0.75rem 0.5rem 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+  }
+  .hero-icon {
+    margin: 0;
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+  }
+  .hero h1 {
+    font-size: 20px;
+    margin: 0;
+  }
+  .hero-sub {
+    margin: 0;
+    border-top: none;
+    padding-top: 0;
+    font-size: 10px;
+  }
+  .hero::after {
+    display: none;
+  }
+  .lang-switch {
+    position: static;
+    margin-left: auto;
+  }
+  .main {
+    padding-top: 0.75rem;
+  }
+}
+
+/* ============================================================
+   TABLETS (481px – 768px)
+   ============================================================ */
+@media (min-width: 481px) and (max-width: 768px) {
+  .main {
+    max-width: 100%;
+    padding: 1.25rem 1rem 0;
+  }
+  .groups-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .p-row input[type="text"] {
+    flex: 1;
+  }
+  .p-row input[type="number"] {
+    width: 85px;
+  }
+  .settings-row {
+    gap: 16px;
+  }
+}
+
+/* ============================================================
+   LARGE SCREENS (> 1200px)
+   ============================================================ */
+@media (min-width: 1200px) {
+  .main {
+    max-width: 800px;
+  }
+  .groups-grid {
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  }
+}
+
+/* ============================================================
+   ACCESSIBILITY — REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* ============================================================
+   HIGH CONTRAST MODE (Windows / forced-colors)
+   ============================================================ */
+@media (forced-colors: active) {
+  .panel,
+  .settings-row,
+  .output-wrap,
+  .group-card {
+    border: 2px solid CanvasText;
+  }
+  .btn-primary {
+    border: 2px solid ButtonText;
+    forced-color-adjust: none;
+  }
+  .tab.active {
+    outline: 2px solid Highlight;
+    outline-offset: -2px;
+  }
+}
