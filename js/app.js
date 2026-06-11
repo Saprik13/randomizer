@@ -95,7 +95,6 @@ function setLang(l) {
   document.getElementById("btn-en").classList.toggle("active", l === "en");
   document.getElementById("hero-title").textContent = t("heroTitle");
   document.getElementById("hero-sub").textContent = t("heroSub");
-  document.getElementById("import-hint").innerHTML = t("importHint");
   document.getElementById("pasteArea").placeholder = t("pastePlaceholder");
   document.querySelectorAll("[data-t]").forEach((el) => {
     el.textContent = t(el.dataset.t);

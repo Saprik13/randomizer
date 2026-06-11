@@ -203,16 +203,6 @@ body, .wrap {
   gap: 7px;
 }
 
-/* Panel title icons (Apple blue) */
-.panel-title::before {
-  content: '';
-  display: inline-block;
-  width: 14px; height: 14px;
-  background-repeat: no-repeat;
-  background-size: contain;
-  opacity: .9;
-  flex-shrink: 0;
-}
 .panel-title.icon-users::before {
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230A84FF' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2'/%3E%3Ccircle cx='9' cy='7' r='4'/%3E%3Cpath d='M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75'/%3E%3C/svg%3E");
 }
@@ -552,18 +542,6 @@ textarea.di {
 /* new — Apple gray */
 .t4 { background: #2C2C2E; color: #8E8E93; }
 
-/* ============================================================
-   DECORATIVE GLOW LINE (accent bar under hero)
-   ============================================================ */
-.hero::after {
-  content: '';
-  display: block;
-  width: 60px;
-  height: 3px;
-  background: linear-gradient(90deg, transparent, var(--accent), transparent);
-  margin: 1rem auto 0;
-  border-radius: 2px;
-}
 
 /* ============================================================
    SCROLLBAR (webkit)
