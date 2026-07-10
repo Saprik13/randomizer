@@ -62,7 +62,7 @@ const T = {
     labelSize: "Players per group",
     btnGenerate: "Generate groups",
     resultTitle: "Result",
-    btnRepeat: "Reshuffle",
+    btnRepeat: "Regenerate",
     namePh: "Name",
     ratingPh: "Rating",
     groupLabel: "Group",
@@ -247,6 +247,55 @@ function hideFeed() {
   document.getElementById("feed-err").style.display = "none";
 }
 
+function seedPlayersSerpentine(players, groupCount) {
+  if (!Number.isInteger(groupCount) || groupCount < 1) return [];
+
+  const sorted = players
+    .map((player, index) => ({ player, index }))
+    .sort(
+      (a, b) =>
+        b.player.rating - a.player.rating || a.index - b.index,
+    )
+    .map(({ player }) => player);
+  const groups = Array.from({ length: groupCount }, () => []);
+  const baseSize = Math.floor(sorted.length / groupCount);
+  let remainder = sorted.length % groupCount;
+  const capacities = Array(groupCount).fill(baseSize);
+
+  // Group 1 gets the first extra player. When possible, the remaining extras
+  // go to groups 3, 4, ... so group 1 stays larger than group 2.
+  if (remainder > 0) {
+    capacities[0]++;
+    remainder--;
+  }
+  for (let i = 2; remainder > 0 && i < groupCount; i++, remainder--) {
+    capacities[i]++;
+  }
+
+  let groupIndex = 0;
+  let direction = 1;
+  const moveToNextGroup = () => {
+    if (groupCount === 1) return;
+    if (direction === 1 && groupIndex === groupCount - 1) {
+      direction = -1;
+    } else if (direction === -1 && groupIndex === 0) {
+      direction = 1;
+    } else {
+      groupIndex += direction;
+    }
+  };
+
+  sorted.forEach((player) => {
+    while (groups[groupIndex].length >= capacities[groupIndex]) {
+      moveToNextGroup();
+    }
+    groups[groupIndex].push(player);
+    moveToNextGroup();
+  });
+
+  return groups;
+}
+
 function generate() {
   const warn = document.getElementById("warning");
   warn.style.display = "none";
@@ -258,35 +307,13 @@ function generate() {
     return;
   }
   const ng = parseInt(document.getElementById("groupCount").value) || 2;
-  const gs = parseInt(document.getElementById("groupSize").value) || 4;
   if (ng > ps.length) {
     warn.textContent = L.warnGroups(ng, ps.length);
     warn.style.display = "block";
     return;
   }
 
-  const sorted = [...ps].sort((a, b) => b.rating - a.rating);
-  const n = sorted.length;
-  const asgn = Array.from({ length: ng }, () => []);
-  const chunks = [];
-  for (let i = 0; i < n; i += ng) chunks.push(sorted.slice(i, i + ng));
-  chunks.forEach((chunk, ci) => {
-    const sh = [...chunk].sort(() => Math.random() - 0.5);
-    const order = Array.from({ length: ng }, (_, i) => i);
-    if (ci % 2 === 1) order.reverse();
-    sh.forEach((p, i) => {
-      if (i < ng) asgn[order[i]].push(p);
-    });
-  });
-  const overflow = [];
-  asgn.forEach((g) => {
-    while (g.length > gs) overflow.push(g.pop());
-  });
-  overflow.sort(() => Math.random() - 0.5);
-  overflow.forEach((p) => {
-    asgn.reduce((a, b) => (a.length <= b.length ? a : b)).push(p);
-  });
-  renderGroups(asgn);
+  renderGroups(seedPlayersSerpentine(ps, ng));
 }
 
 function tierLabel(rank, total) {
@@ -334,3 +361,6 @@ function renderGroups(groups) {
   document.getElementById("output").style.display = "block";
 }
 
+if (typeof module !== "undefined" && module.exports) {
+  module.exports = { seedPlayersSerpentine };
+}

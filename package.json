@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "test": "node --test"
+  },
   "dependencies": {
     "normalize.css": "^8.0.1"
   }
