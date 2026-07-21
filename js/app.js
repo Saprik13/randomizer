@@ -7,7 +7,7 @@ let rows = [],
 const T = {
   ua: {
     heroTitle: "Рандомайзер",
-    heroSub: "Розподіл учасників по групах",
+    heroSub: "Жеребкування груп",
     tabManual: "Вручну",
     tabImport: "Імпорт з таблиці",
     panelPlayers: "Учасники",
@@ -48,7 +48,7 @@ const T = {
   },
   en: {
     heroTitle: "Randomizer",
-    heroSub: "Group distribution by rating",
+    heroSub: "Group draw",
     tabManual: "Manual",
     tabImport: "Import from sheet",
     panelPlayers: "Players",
