@@ -10,6 +10,31 @@ A clean, client-side web tool for randomly distributing participants into balanc
 - **Flexible setup** — define either number of groups or participants per group
 - **Fully client-side** — no data leaves your browser
 
+## Accessibility
+
+Randomizer is designed with WCAG 2.2 Level AA accessibility in mind:
+
+- **Native semantics first** — the interface uses semantic HTML landmarks,
+  forms, fieldsets, lists, headings, articles, labels, and output elements,
+  with ARIA added only where native HTML does not provide the required pattern.
+- **Full keyboard support** — all controls work without a mouse, including a
+  skip link and arrow-key, Home, End, Enter, and Space navigation for tabs.
+- **Screen reader feedback** — form controls have programmatic names, language
+  and tab states are exposed, and dynamic status or error messages are
+  announced through appropriate live regions.
+- **Predictable focus** — focus moves to logical locations after participant
+  removal, validation errors, and result generation.
+- **Bilingual accessible names** — visible text, control names, messages, and
+  the document language stay synchronized in Ukrainian and English.
+- **Perceivable results** — group results use headings and lists, while rating
+  categories include full text labels and do not rely on color alone.
+- **Visible focus and AA contrast** — keyboard focus remains clearly visible
+  on the dark theme, and interface colors meet the required contrast targets.
+
+The interface is checked with automated axe-core audits and browser keyboard
+scenarios. Automated tools are used alongside semantic and interaction checks,
+not as the sole evidence of accessibility.
+
 <b>How to use</b>
 
 1. Open the [live app](https://saprik13.github.io/randomizer/)
