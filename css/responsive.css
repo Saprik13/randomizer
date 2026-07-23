@@ -508,8 +508,8 @@ input[type="number"] {
   --bg-row: #30302e;
   --border: #30302e;
   --border-light: #464643;
-  --accent: #2f7edb;
-  --accent-hover: #388be9;
+  --accent: #2368b6;
+  --accent-hover: #2a73c8;
   --text-primary: #f4f4f2;
   --text-secondary: #aaa9a5;
   --text-muted: #686864;
@@ -554,6 +554,8 @@ body,
   line-height: 16px;
   white-space: nowrap;
   text-overflow: ellipsis;
+  border-color: #62a9f5;
+  color: #62a9f5;
 }
 
 .lang-switch {
@@ -1077,7 +1079,7 @@ body,
   justify-content: flex-end;
   gap: 5px;
   border-top: 1px solid #282826;
-  color: #777773;
+  color: #9a9a95;
   font-size: 9px;
   line-height: 1;
   text-align: right;
@@ -1188,5 +1190,86 @@ body,
   .distribution-panel .set-item label {
     height: 30px;
     font-size: 9px;
+  }
+}
+
+/* Accessibility utilities and keyboard focus */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+.skip-link {
+  position: fixed;
+  top: 0.75rem;
+  left: 0.75rem;
+  z-index: 1000;
+  padding: 0.65rem 0.9rem;
+  transform: translateY(calc(-100% - 1rem));
+  border: 2px solid #fff;
+  border-radius: 6px;
+  background: var(--accent);
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+}
+
+:focus-visible {
+  outline: 3px solid #ffd166 !important;
+  outline-offset: 3px;
+}
+
+.lang-btn:focus-visible {
+  outline-offset: -3px;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+fieldset {
+  min-inline-size: 0;
+}
+
+.col-row {
+  padding: 0;
+  border: 0;
+}
+
+.player-list,
+.member-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.feed-ok:not([hidden]),
+.feed-err:not([hidden]) {
+  display: inline;
+}
+
+.distribution-panel .info-msg:not([hidden]) {
+  display: flex;
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight !important;
+  }
+
+  .skip-link {
+    border-color: LinkText;
   }
 }

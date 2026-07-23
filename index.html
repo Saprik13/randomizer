@@ -1,189 +1,298 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="uk">
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Randomizer</title>
-    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-    <link rel="stylesheet" href="./css/style.css?v=6" />
-    <link rel="stylesheet" href="./css/responsive.css?v=8">
-    <script src="./js/app.js?v=3" defer></script>
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
+    >
+    <link rel="stylesheet" href="./css/style.css?v=7">
+    <link rel="stylesheet" href="./css/responsive.css?v=9">
+    <script src="./js/app.js?v=4" defer></script>
   </head>
   <body>
+    <a class="skip-link" href="#main-content" data-t="skipLink">
+      Перейти до основного вмісту
+    </a>
+
     <div class="wrap">
-      <div class="hero">
-        <div class="lang-switch">
-          <button class="lang-btn active" id="btn-ua" onclick="setLang('ua')">
+      <header class="hero">
+        <nav class="lang-switch" aria-labelledby="language-switch-label">
+          <span
+            class="visually-hidden"
+            id="language-switch-label"
+            data-t="languageSelect"
+          >
+            Вибір мови
+          </span>
+          <button
+            class="lang-btn active"
+            id="btn-ua"
+            type="button"
+            aria-label="Обрати українську мову"
+            aria-pressed="true"
+            data-t-aria-label="languageUa"
+          >
             UA
           </button>
-          <button class="lang-btn" id="btn-en" onclick="setLang('en')">
+          <button
+            class="lang-btn"
+            id="btn-en"
+            type="button"
+            aria-label="Обрати англійську мову"
+            aria-pressed="false"
+            data-t-aria-label="languageEn"
+          >
             EN
           </button>
-        </div>
-        <i class="hero-icon" aria-hidden="true"></i>
+        </nav>
+        <span class="hero-icon" aria-hidden="true"></span>
         <h1 id="hero-title">Рандомайзер</h1>
-        <div class="hero-sub" id="hero-sub">Жеребкування груп</div>
-      </div>
+        <p class="hero-sub" id="hero-sub">Жеребкування груп</p>
+      </header>
 
-      <div class="main">
-        <div class="tabs">
-          <button
-            class="tab active"
-            id="tab-btn-manual"
-            onclick="switchTab('manual', this)"
-          >
-            <i class="ti ti-edit" aria-hidden="true"></i>
-            <span data-t="tabManual">Вручну</span>
-          </button>
-          <button
-            class="tab"
-            id="tab-btn-import"
-            onclick="switchTab('import', this)"
-          >
-            <i class="ti ti-table-import" aria-hidden="true"></i>
-            <span data-t="tabImport">Імпорт з таблиці</span>
-          </button>
-        </div>
-
-        <div id="tab-manual" class="tab-content active">
-          <div class="panel participants-panel">
-            <div class="panel-header">
-              <div class="panel-title">
-                <i class="ti ti-users" aria-hidden="true"></i>
-                <span data-t="panelPlayers">Учасники</span>
-                <span class="count-badge" id="player-count">0</span>
-              </div>
+      <main class="main" id="main-content" tabindex="-1">
+        <form id="group-generator-form" aria-labelledby="hero-title">
+          <nav aria-labelledby="tabs-label">
+            <span class="visually-hidden" id="tabs-label" data-t="tabsLabel">
+              Спосіб введення учасників
+            </span>
+            <div class="tabs" role="tablist" aria-labelledby="tabs-label">
               <button
-                class="btn-clear-all"
+                class="tab active"
+                id="tab-btn-manual"
                 type="button"
-                onclick="clearList()"
-                aria-label="Clear players"
+                role="tab"
+                aria-selected="true"
+                aria-controls="tab-manual"
+                tabindex="0"
               >
-                <i class="ti ti-trash" aria-hidden="true"></i>
+                <i class="ti ti-edit" aria-hidden="true"></i>
+                <span data-t="tabManual">Вручну</span>
+              </button>
+              <button
+                class="tab"
+                id="tab-btn-import"
+                type="button"
+                role="tab"
+                aria-selected="false"
+                aria-controls="tab-import"
+                tabindex="-1"
+              >
+                <i class="ti ti-table-import" aria-hidden="true"></i>
+                <span data-t="tabImport">Імпорт з таблиці</span>
               </button>
             </div>
-            <div class="player-list" id="plist"></div>
-            <button class="btn-add-player" type="button" onclick="addRow()">
-              <i class="ti ti-plus" aria-hidden="true"></i>
-              <span data-t="btnAdd">Додати учасника</span>
+          </nav>
+
+          <section
+            id="tab-manual"
+            class="tab-content active"
+            role="tabpanel"
+            aria-labelledby="tab-btn-manual"
+          >
+            <section
+              class="panel participants-panel"
+              aria-labelledby="participants-heading"
+            >
+              <div class="panel-header">
+                <h2 class="panel-title" id="participants-heading">
+                  <i class="ti ti-users" aria-hidden="true"></i>
+                  <span data-t="panelPlayers">Учасники</span>
+                  <span class="count-badge" id="player-count">
+                    <span id="player-count-visible" aria-hidden="true">0</span>
+                    <span class="visually-hidden" id="player-count-text">
+                      0 учасників
+                    </span>
+                  </span>
+                </h2>
+                <button class="btn-clear-all" id="clear-list-button" type="button">
+                  <i class="ti ti-trash" aria-hidden="true"></i>
+                  <span class="visually-hidden" data-t="btnClear">
+                    Очистити список
+                  </span>
+                </button>
+              </div>
+              <ul
+                class="player-list"
+                id="plist"
+                aria-labelledby="participants-heading"
+              ></ul>
+              <button class="btn-add-player" id="add-player-button" type="button">
+                <i class="ti ti-plus" aria-hidden="true"></i>
+                <span data-t="btnAdd">Додати учасника</span>
+              </button>
+            </section>
+          </section>
+
+          <section
+            id="tab-import"
+            class="tab-content"
+            role="tabpanel"
+            aria-labelledby="tab-btn-import"
+            hidden
+          >
+            <section class="panel" aria-labelledby="import-heading">
+              <h2 class="panel-title" id="import-heading">
+                <i class="ti ti-clipboard-data" aria-hidden="true"></i>
+                <span data-t="panelImport">
+                  Вставте дані з Google Таблиць
+                </span>
+              </h2>
+              <fieldset class="col-row">
+                <legend class="visually-hidden" data-t="importColumnsLegend">
+                  Налаштування колонок імпорту
+                </legend>
+                <div class="col-item">
+                  <label for="colName" data-t="colName">Колонка імені</label>
+                  <input
+                    class="di"
+                    type="number"
+                    id="colName"
+                    value="1"
+                    min="1"
+                    max="20"
+                    step="1"
+                    inputmode="numeric"
+                  >
+                </div>
+                <div class="col-item">
+                  <label for="colRating" data-t="colRating">
+                    Колонка рейтингу
+                  </label>
+                  <input
+                    class="di"
+                    type="number"
+                    id="colRating"
+                    value="2"
+                    min="1"
+                    max="20"
+                    step="1"
+                    inputmode="numeric"
+                  >
+                </div>
+              </fieldset>
+              <label class="visually-hidden" for="pasteArea" data-t="pasteLabel">
+                Дані учасників для імпорту
+              </label>
+              <textarea
+                class="di"
+                id="pasteArea"
+                rows="5"
+                data-t-ph="pastePlaceholder"
+              ></textarea>
+              <div class="act-row act-row-import">
+                <button
+                  class="btn btn-primary btn-import"
+                  id="import-button"
+                  type="button"
+                >
+                  <i class="ti ti-download" aria-hidden="true"></i>
+                  <span data-t="btnImport">Імпортувати</span>
+                </button>
+                <button
+                  class="btn btn-clear-paste"
+                  id="clear-paste-button"
+                  type="button"
+                >
+                  <i class="ti ti-x" aria-hidden="true"></i>
+                  <span data-t="btnClearPaste">Очистити</span>
+                </button>
+                <span
+                  id="import-feedback"
+                  class="feed-ok"
+                  hidden
+                ></span>
+              </div>
+            </section>
+          </section>
+
+          <section
+            class="panel distribution-panel"
+            aria-labelledby="distribution-heading"
+          >
+            <h2 class="panel-title" id="distribution-heading">
+              <i
+                class="ti ti-adjustments-horizontal"
+                aria-hidden="true"
+              ></i>
+              <span data-t="distributionTitle">Розподіл на групи</span>
+            </h2>
+            <fieldset class="settings-row" aria-describedby="info-msg">
+              <legend class="visually-hidden" data-t="distributionLegend">
+                Налаштування розподілу
+              </legend>
+              <div class="set-item">
+                <label for="groupCount" data-t="labelGroups">
+                  Кількість груп
+                </label>
+                <input
+                  class="di"
+                  type="number"
+                  id="groupCount"
+                  min="1"
+                  max="100"
+                  step="1"
+                  inputmode="numeric"
+                  value="2"
+                  >
+              </div>
+              <div class="set-item">
+                <label for="groupSize" data-t="labelSize">
+                  Учасників у групі
+                </label>
+                <input
+                  class="di"
+                  type="number"
+                  id="groupSize"
+                  min="1"
+                  max="100"
+                  step="1"
+                  inputmode="numeric"
+                  value="4"
+                  >
+              </div>
+            </fieldset>
+            <output
+              class="info-msg"
+              id="info-msg"
+              aria-live="polite"
+              aria-atomic="true"
+              hidden
+            ></output>
+          </section>
+
+          <div class="act-row act-row-generate">
+            <button
+              id="generate-groups-button"
+              type="submit"
+              class="btn btn-primary btn-generate"
+            >
+              <i class="ti ti-shuffle" aria-hidden="true"></i>
+              <span data-t="btnGenerate">Генерувати групи</span>
             </button>
           </div>
-        </div>
+          <div
+            id="warning"
+            class="warning"
+            role="alert"
+            aria-live="assertive"
+            aria-atomic="true"
+            tabindex="-1"
+            hidden
+          ></div>
+        </form>
 
-        <div id="tab-import" class="tab-content">
-          <div class="panel">
-            <div class="panel-title">
-              <i class="ti ti-clipboard-data" aria-hidden="true"></i>
-              <span data-t="panelImport">Вставте дані з Google Таблиць</span>
-            </div>
-            <div class="col-row">
-              <div class="col-item">
-                <label data-t="colName">Колонка імені</label>
-                <input
-                  class="di"
-                  type="number"
-                  id="colName"
-                  value="1"
-                  min="1"
-                  max="20"
-                />
-              </div>
-              <div class="col-item">
-                <label data-t="colRating">Колонка рейтингу</label>
-                <input
-                  class="di"
-                  type="number"
-                  id="colRating"
-                  value="2"
-                  min="1"
-                  max="20"
-                />
-              </div>
-            </div>
-            <textarea
-              class="di"
-              id="pasteArea"
-              rows="5"
-              data-t-ph="pastePlaceholder"
-            ></textarea>
-            <div class="act-row act-row-import" style="margin-top: 10px">
-              <button
-                class="btn btn-primary btn-import"
-                onclick="importData()"
-              >
-                <i class="ti ti-download" aria-hidden="true"></i>
-                <span data-t="btnImport">Імпортувати</span>
-              </button>
-              <button
-                class="btn btn-clear-paste"
-                onclick="
-                  document.getElementById('pasteArea').value = '';
-                  hideFeed();
-                "
-              >
-                <i class="ti ti-x" aria-hidden="true"></i>
-                <span data-t="btnClearPaste">Очистити</span>
-              </button>
-              <span id="feed-ok" class="feed-ok"></span>
-              <span id="feed-err" class="feed-err"></span>
-            </div>
-          </div>
-        </div>
-
-        <section class="panel distribution-panel">
-          <div class="panel-title">
-            <i class="ti ti-adjustments-horizontal" aria-hidden="true"></i>
-            <span data-t="distributionTitle">Розподіл на групи</span>
-          </div>
-          <div class="settings-row">
-            <div class="set-item">
-              <label data-t="labelGroups">Кількість груп</label>
-              <input
-                class="di"
-                type="number"
-                id="groupCount"
-                min="1"
-                max="100"
-                value="2"
-                oninput="updatePreview()"
-              />
-            </div>
-            <div class="set-item">
-              <label data-t="labelSize">Учасників у групі</label>
-              <input
-                class="di"
-                type="number"
-                id="groupSize"
-                min="1"
-                max="100"
-                value="4"
-                oninput="updatePreview()"
-              />
-            </div>
-          </div>
-          <div class="info-msg" id="info-msg"></div>
-        </section>
-
-        <div class="act-row act-row-generate">
-          <button
-            id="generate-groups-button"
-            type="button"
-            class="btn btn-primary btn-generate"
-          >
-            <i class="ti ti-shuffle" aria-hidden="true"></i>
-            <span data-t="btnGenerate">Генерувати групи</span>
-          </button>
-        </div>
-        <div id="warning" class="warning" style="display: none"></div>
-
-        <div id="output" style="display: none">
+        <section id="output" aria-labelledby="results-heading" hidden>
           <div class="output-wrap">
             <div class="out-header">
-              <div class="out-title">
+              <h2 class="out-title" id="results-heading" tabindex="-1">
                 <i class="ti ti-layout-grid" aria-hidden="true"></i>
                 <span data-t="resultTitle">Результат</span>
-              </div>
+              </h2>
               <button
                 id="repeat-groups-button"
                 type="button"
@@ -195,8 +304,16 @@
             </div>
             <div class="groups-grid" id="groups-grid"></div>
           </div>
-        </div>
-      </div>
+        </section>
+
+        <div
+          class="visually-hidden"
+          id="app-status"
+          role="status"
+          aria-live="polite"
+          aria-atomic="true"
+        ></div>
+      </main>
     </div>
   </body>
 </html>

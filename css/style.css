@@ -308,7 +308,7 @@ body, .wrap {
   transition: border-color .2s, background .2s;
   font-family: inherit;
 }
-.di:focus { outline: none; border-color: var(--accent); background: #3A3A3C; }
+.di:focus { border-color: var(--accent); background: #3A3A3C; }
 .di::placeholder { color: var(--text-muted); }
 
 textarea.di {
@@ -544,6 +544,7 @@ textarea.di {
 
 .act-row-import {
   grid-template-columns: repeat(2, 148px);
+  margin-top: 10px;
 }
 
 .act-row-generate {
