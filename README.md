@@ -10,6 +10,10 @@ A clean, client-side web tool for randomly distributing participants into balanc
 - **Flexible setup** — define either number of groups or participants per group
 - **Fully client-side** — no data leaves your browser
 
+## Related project
+
+- [DartRank Counter](https://github.com/Saprik13/dartsRankCounter) — track player rankings for darts tournaments
+
 <b>How to use</b>
 
 1. Open the [live app](https://saprik13.github.io/randomizer/)
