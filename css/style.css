@@ -596,7 +596,7 @@ textarea.di {
 }
 .info-ok   { color: var(--green); }
 .info-warn { color: var(--warn); }
-.info-grey { color: var(--text-secondary); }
+.info-note { color: var(--text-white); }
 
 .warning {
   margin-top: 8px;

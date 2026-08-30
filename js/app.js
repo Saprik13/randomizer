@@ -274,6 +274,11 @@ function formatActualGroupSize(min, max) {
   return min === max ? String(min) : `${min}–${max}`;
 }
 
+function setInfoState(info, state) {
+  info.classList.remove("info-note", "info-warn", "info-ok");
+  info.classList.add(`info-${state}`);
+}
+
 function updatePreview() {
   const ps = getPs();
   const n = ps.length;
@@ -302,13 +307,13 @@ function updatePreview() {
   const actual = formatActualGroupSize(actualMin, actualMax);
   if (actualMax > selectedRange.max) {
     info.textContent = L.infoRangeOver(actual, selectedLabel);
-    info.style.color = "#e5a040";
+    setInfoState(info, "warn");
   } else if (actualMin < selectedRange.min) {
     info.textContent = L.infoRangeUnder(actual, selectedLabel);
-    info.style.color = "#888";
+    setInfoState(info, "note");
   } else {
     info.textContent = L.infoRangeMatch(n, ng, actual, selectedLabel);
-    info.style.color = "#50c878";
+    setInfoState(info, "ok");
   }
 }
 
