@@ -526,7 +526,8 @@ textarea.di {
   line-height: 1.2;
   text-align: center;
 }
-.set-item input { width: 80px; }
+.set-item input,
+.set-item select { width: 80px; }
 
 /* ============================================================
    ACTION ROWS / FEEDBACK

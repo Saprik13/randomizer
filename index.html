@@ -9,9 +9,9 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"
     >
-    <link rel="stylesheet" href="./css/style.css?v=7">
-    <link rel="stylesheet" href="./css/responsive.css?v=9">
-    <script src="./js/app.js?v=4" defer></script>
+    <link rel="stylesheet" href="./css/style.css?v=8">
+    <link rel="stylesheet" href="./css/responsive.css?v=10">
+    <script src="./js/app.js?v=5" defer></script>
   </head>
   <body>
     <a class="skip-link" href="#main-content" data-t="skipLink">
@@ -229,31 +229,39 @@
                 <label for="groupCount" data-t="labelGroups">
                   Кількість груп
                 </label>
-                <input
+                <select
                   class="di"
-                  type="number"
                   id="groupCount"
-                  min="1"
-                  max="100"
-                  step="1"
-                  inputmode="numeric"
-                  value="2"
-                  >
+                >
+                  <option value="1">1</option>
+                  <option value="2" selected>2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
               </div>
               <div class="set-item">
                 <label for="groupSize" data-t="labelSize">
                   Учасників у групі
                 </label>
-                <input
+                <select
                   class="di"
-                  type="number"
                   id="groupSize"
-                  min="1"
-                  max="100"
-                  step="1"
-                  inputmode="numeric"
-                  value="4"
-                  >
+                >
+                  <option value="3" data-t="groupSize3">3 гравці</option>
+                  <option value="4-6" data-t="groupSize4To6" selected>
+                    4–6 гравців
+                  </option>
+                  <option value="7-8" data-t="groupSize7To8">
+                    7–8 гравців
+                  </option>
+                  <option value="9-11" data-t="groupSize9To11">
+                    9–11 гравців
+                  </option>
+                  <option value="12+" data-t="groupSize12Plus">
+                    12 гравців і більше
+                  </option>
+                </select>
               </div>
             </fieldset>
             <output

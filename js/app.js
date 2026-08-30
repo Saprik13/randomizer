@@ -4,6 +4,14 @@ let rows = [],
   generationVariant = 0,
   lastGenerationKey = "";
 
+const GROUP_SIZE_RANGES = {
+  "3": { min: 3, max: 3 },
+  "4-6": { min: 4, max: 6 },
+  "7-8": { min: 7, max: 8 },
+  "9-11": { min: 9, max: 11 },
+  "12+": { min: 12, max: Number.POSITIVE_INFINITY },
+};
+
 function ukParticipantCount(count) {
   const mod10 = count % 10;
   const mod100 = count % 100;
@@ -39,6 +47,11 @@ const T = {
     distributionLegend: "Налаштування розподілу",
     labelGroups: "Кількість груп",
     labelSize: "Учасників у групі",
+    groupSize3: "3 гравці",
+    groupSize4To6: "4–6 гравців",
+    groupSize7To8: "7–8 гравців",
+    groupSize9To11: "9–11 гравців",
+    groupSize12Plus: "12 гравців і більше",
     distributionTitle: "Розподіл на групи",
     btnGenerate: "Генерувати групи",
     resultTitle: "Результат",
@@ -79,11 +92,12 @@ const T = {
       }.`,
     warnMin: "Додайте хоча б 2 учасників.",
     warnGroups: (ng, n) => `Груп (${ng}) більше ніж учасників (${n}).`,
-    infoExact: (n, ng, gs) => `✓ ${n} учасників → рівно ${ng} груп по ${gs}.`,
-    infoOver: (ng, gs, cap, n) =>
-      `⚠ Місць (${ng}×${gs}=${cap}) менше ніж учасників (${n}) — надлишок розподілиться рівномірно.`,
-    infoUnder: (n, ng, gs) =>
-      `ℹ ${n} учасників → ${ng} груп, деякі матимуть менше ${gs} ос.`,
+    infoRangeMatch: (n, ng, actual, selected) =>
+      `✓ Учасників: ${n}; груп: ${ng}; у групі буде: ${actual}. Обрано: ${selected}.`,
+    infoRangeOver: (actual, selected) =>
+      `⚠ У групі буде ${actual} — це більше за обраний діапазон «${selected}».`,
+    infoRangeUnder: (actual, selected) =>
+      `ℹ У групі буде ${actual} — це менше за обраний діапазон «${selected}».`,
   },
   en: {
     skipLink: "Skip to main content",
@@ -109,6 +123,11 @@ const T = {
     distributionLegend: "Distribution settings",
     labelGroups: "Number of groups",
     labelSize: "Players per group",
+    groupSize3: "3 players",
+    groupSize4To6: "4–6 players",
+    groupSize7To8: "7–8 players",
+    groupSize9To11: "9–11 players",
+    groupSize12Plus: "12 players or more",
     distributionTitle: "Group distribution",
     btnGenerate: "Generate groups",
     resultTitle: "Result",
@@ -150,11 +169,12 @@ const T = {
       }.`,
     warnMin: "Add at least 2 players.",
     warnGroups: (ng, n) => `Groups (${ng}) exceed players (${n}).`,
-    infoExact: (n, ng, gs) => `✓ ${n} players → exactly ${ng} groups of ${gs}.`,
-    infoOver: (ng, gs, cap, n) =>
-      `⚠ Slots (${ng}×${gs}=${cap}) less than players (${n}) — overflow distributed evenly.`,
-    infoUnder: (n, ng, gs) =>
-      `ℹ ${n} players → ${ng} groups, some will have fewer than ${gs}.`,
+    infoRangeMatch: (n, ng, actual, selected) =>
+      `✓ Players: ${n}; groups: ${ng}; players per group: ${actual}. Selected: ${selected}.`,
+    infoRangeOver: (actual, selected) =>
+      `⚠ Each group will have ${actual}, above the selected “${selected}” range.`,
+    infoRangeUnder: (actual, selected) =>
+      `ℹ Each group will have ${actual}, below the selected “${selected}” range.`,
   },
 };
 
@@ -246,12 +266,23 @@ function clearList() {
   announce(t("listCleared"));
 }
 
+function getGroupSizeRange(value) {
+  return GROUP_SIZE_RANGES[value] || GROUP_SIZE_RANGES["4-6"];
+}
+
+function formatActualGroupSize(min, max) {
+  return min === max ? String(min) : `${min}–${max}`;
+}
+
 function updatePreview() {
   const ps = getPs();
   const n = ps.length;
   const ng = parseInt(document.getElementById("groupCount").value) || 2;
-  const gs = parseInt(document.getElementById("groupSize").value) || 4;
-  const cap = ng * gs;
+  const groupSizeSelect = document.getElementById("groupSize");
+  const selectedRange = getGroupSizeRange(groupSizeSelect.value);
+  const selectedLabel =
+    groupSizeSelect.options[groupSizeSelect.selectedIndex]?.textContent.trim() ||
+    t("groupSize4To6");
   const info = document.getElementById("info-msg");
   const visiblePlayerCount = document.getElementById("player-count-visible");
   const accessiblePlayerCount = document.getElementById("player-count-text");
@@ -266,14 +297,17 @@ function updatePreview() {
   }
   info.hidden = false;
   const L = T[lang];
-  if (cap < n) {
-    info.textContent = L.infoOver(ng, gs, cap, n);
+  const actualMin = Math.floor(n / ng);
+  const actualMax = Math.ceil(n / ng);
+  const actual = formatActualGroupSize(actualMin, actualMax);
+  if (actualMax > selectedRange.max) {
+    info.textContent = L.infoRangeOver(actual, selectedLabel);
     info.style.color = "#e5a040";
-  } else if (cap > n) {
-    info.textContent = L.infoUnder(n, ng, gs);
+  } else if (actualMin < selectedRange.min) {
+    info.textContent = L.infoRangeUnder(actual, selectedLabel);
     info.style.color = "#888";
   } else {
-    info.textContent = L.infoExact(n, ng, gs);
+    info.textContent = L.infoRangeMatch(n, ng, actual, selectedLabel);
     info.style.color = "#50c878";
   }
 }
@@ -741,10 +775,10 @@ function bindApp() {
     ?.addEventListener("click", clearPasteArea);
   document
     .getElementById("groupCount")
-    ?.addEventListener("input", updatePreview);
+    ?.addEventListener("change", updatePreview);
   document
     .getElementById("groupSize")
-    ?.addEventListener("input", updatePreview);
+    ?.addEventListener("change", updatePreview);
   document
     .getElementById("repeat-groups-button")
     ?.addEventListener("click", () => generate());
@@ -762,5 +796,5 @@ if (typeof document !== "undefined") {
 }
 
 if (typeof module !== "undefined" && module.exports) {
-  module.exports = { seedPlayersSerpentine };
+  module.exports = { getGroupSizeRange, seedPlayersSerpentine };
 }
