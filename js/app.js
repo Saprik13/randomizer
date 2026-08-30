@@ -7,9 +7,7 @@ let rows = [],
 const GROUP_SIZE_RANGES = {
   "3": { min: 3, max: 3 },
   "4-6": { min: 4, max: 6 },
-  "7-8": { min: 7, max: 8 },
-  "9-11": { min: 9, max: 11 },
-  "12+": { min: 12, max: Number.POSITIVE_INFINITY },
+  "7+": { min: 7, max: Number.POSITIVE_INFINITY },
 };
 
 function ukParticipantCount(count) {
@@ -49,9 +47,7 @@ const T = {
     labelSize: "Учасників у групі",
     groupSize3: "3 гравці",
     groupSize4To6: "4–6 гравців",
-    groupSize7To8: "7–8 гравців",
-    groupSize9To11: "9–11 гравців",
-    groupSize12Plus: "12 гравців і більше",
+    groupSize7Plus: "7 гравців і більше",
     distributionTitle: "Розподіл на групи",
     btnGenerate: "Генерувати групи",
     resultTitle: "Результат",
@@ -125,9 +121,7 @@ const T = {
     labelSize: "Players per group",
     groupSize3: "3 players",
     groupSize4To6: "4–6 players",
-    groupSize7To8: "7–8 players",
-    groupSize9To11: "9–11 players",
-    groupSize12Plus: "12 players or more",
+    groupSize7Plus: "7 players or more",
     distributionTitle: "Group distribution",
     btnGenerate: "Generate groups",
     resultTitle: "Result",
